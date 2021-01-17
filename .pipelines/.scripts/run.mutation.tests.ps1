@@ -1,4 +1,5 @@
-﻿$arg = $args[0]
+﻿$ErrorActionPreference = "Stop"
+$arg = $args[0]
 function CopyNewestReport($outputPath, $testPath)
 {
     Write-Host $outputPath
@@ -145,16 +146,19 @@ function GenerateReports($outputPath, $cd)
         }
 
         Set-Location $projectFile.Directory
-        Write-Host $projectFile.Directory
 
         # Invoke all commands.
         foreach($command in $commands)
         {
-            Write-Host $command
-            dotnet stryker -p "$($command)" --reporters "['json', 'progress']"
+            dotnet stryker -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
+            }
+
+            if ($LastExitCode -ne 0)
+            {
+                throw "Mutation Tests failed to meet the standard threshold of 85%."
             }
 
             CopyNewestReport $outputPath $pwd
