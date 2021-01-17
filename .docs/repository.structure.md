@@ -8,33 +8,32 @@ This repository follows the screaming architecture approach: the repository stru
   - .pipeline
     - .scripts *(Any scripts that are ran from within the build or deployment pipeline should reside in this folder)*
     - .templates
-  - domain *(Replace 'domain' with name of domain)*
-    - .vs
-    - src
-      - app
-        - api
-          - project
-          - tests
-        - consumers
-          - name
-            - project
-            - tests
-        - ui
-          - mobile
-            - project
-            - tests
-          - web
-            - project
-            - tests
-      - libs
+  - .vs
+  - src
+    - app
+      - api
+        - project
+        - tests
+      - consumers
         - name
           - project
           - tests
-    - .dockerignore
-    - .editorconfig
-    - azure-pipelines.yml
-    - domain.sln *(Replace 'domain' with name of domain)*
-    - readme.md
+      - ui
+        - mobile
+          - project
+          - tests
+        - web
+          - project
+          - tests
+    - libs
+      - name
+        - project
+        - tests
+  - .dockerignore
+  - .editorconfig
+  - azure-pipelines.yml
+  - domain.sln *(Replace 'domain' with name of domain)*
+  - readme.md
   - .gitattributes
   - .gitignore
   - contributing.md
