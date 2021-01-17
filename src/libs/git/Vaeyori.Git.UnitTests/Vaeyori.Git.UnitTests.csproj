@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <Target Name="ExecuteUnitTests" AfterTargets="AfterBuild" Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
+    <Exec Command="dotnet test --no-restore --no-build $(MSBuildProjectFile)"></Exec>
+  </Target>
+
+  <Target Name="ExecuteMutationTests" AfterTargets="ExecuteUnitTests" Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
+    <Exec Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { ../../../../.pipelines/.scripts/run.mutation.tests.ps1 mutation-tests } &quot;"
+          LogStandardErrorAsError="True"
+          ContinueOnError="False"
+          WorkingDirectory="$(MSBuildProjectDirectory)"></Exec>
+  </Target>
+
+  <PropertyGroup Label="FineCodeCoverage">
+    <Enabled>
+      True
+    </Enabled>
+    <Exclude>
+      [*Test*]*
+    </Exclude>
+    <IncludeTestAssembly>
+      False
+    </IncludeTestAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vaeyori.Git\Vaeyori.Git.csproj" />
+  </ItemGroup>
+
+</Project>
