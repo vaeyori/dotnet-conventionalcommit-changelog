@@ -14,9 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{93457567-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{5455BC2D-B1D4-4067-B1B4-5DB4A7ED8BE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaeyori.Git.UnitTests", "src\libs\git\Vaeyori.Git.UnitTests\Vaeyori.Git.UnitTests.csproj", "{F4B03ADF-968C-4841-ADF1-09C995CD5C5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vaeyori.Git.UnitTests", "src\libs\git\Vaeyori.Git.UnitTests\Vaeyori.Git.UnitTests.csproj", "{F4B03ADF-968C-4841-ADF1-09C995CD5C5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaeyori.Git", "src\libs\git\Vaeyori.Git\Vaeyori.Git.csproj", "{82222AFE-D93D-49C8-BA46-08048B3C494F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vaeyori.Git", "src\libs\git\Vaeyori.Git\Vaeyori.Git.csproj", "{82222AFE-D93D-49C8-BA46-08048B3C494F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "conventionalcommits", "conventionalcommits", "{15CD354D-A46F-49AE-82DC-60702E9EE2D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaeyori.ConventionalCommits.UnitTests", "src\libs\conventionalcommits\Vaeyori.ConventionalCommits.UnitTests\Vaeyori.ConventionalCommits.UnitTests.csproj", "{4C906F98-2996-4A46-9B7B-B1B81E642553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaeyori.ConventionalCommits", "src\libs\conventionalcommits\Vaeyori.ConventionalCommits\Vaeyori.ConventionalCommits.csproj", "{3BFD433B-9C1D-40F1-9BFF-7980D30455F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +38,14 @@ Global
 		{82222AFE-D93D-49C8-BA46-08048B3C494F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82222AFE-D93D-49C8-BA46-08048B3C494F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82222AFE-D93D-49C8-BA46-08048B3C494F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C906F98-2996-4A46-9B7B-B1B81E642553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C906F98-2996-4A46-9B7B-B1B81E642553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C906F98-2996-4A46-9B7B-B1B81E642553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C906F98-2996-4A46-9B7B-B1B81E642553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFD433B-9C1D-40F1-9BFF-7980D30455F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFD433B-9C1D-40F1-9BFF-7980D30455F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFD433B-9C1D-40F1-9BFF-7980D30455F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFD433B-9C1D-40F1-9BFF-7980D30455F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +55,9 @@ Global
 		{5455BC2D-B1D4-4067-B1B4-5DB4A7ED8BE8} = {93457567-6EB2-4588-A449-13DC35047B01}
 		{F4B03ADF-968C-4841-ADF1-09C995CD5C5C} = {5455BC2D-B1D4-4067-B1B4-5DB4A7ED8BE8}
 		{82222AFE-D93D-49C8-BA46-08048B3C494F} = {5455BC2D-B1D4-4067-B1B4-5DB4A7ED8BE8}
+		{15CD354D-A46F-49AE-82DC-60702E9EE2D3} = {93457567-6EB2-4588-A449-13DC35047B01}
+		{4C906F98-2996-4A46-9B7B-B1B81E642553} = {15CD354D-A46F-49AE-82DC-60702E9EE2D3}
+		{3BFD433B-9C1D-40F1-9BFF-7980D30455F9} = {15CD354D-A46F-49AE-82DC-60702E9EE2D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5789639C-D7A1-43E2-B801-3A7D005F56F2}
