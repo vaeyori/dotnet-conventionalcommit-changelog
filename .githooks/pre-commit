@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh bash
 LC_ALL=C
 
 local_branch="$(git rev-parse --abbrev-ref HEAD)"
