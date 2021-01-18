@@ -25,16 +25,13 @@ namespace Vaeyori.ConventionalCommits
 
     public sealed class ConventionalCommitParser
     {
+        private const string CARRIAGE_RETURN = "\r";
+        private const string LINE_FEED = "\n";
         private const string BREAKING_CHANGE_TOKEN = "BREAKING CHANGE";
-        private const string CONVENTIONAL_COMMIT_FORMAT = "(?<type>\\w*)(?:(?<scope>.*))?: (?<subject>.*)$";
-        private const string CONVENTIONAL_COMMIT_BREAKING_FORMAT = "(?<token>.*): (?<value>.*)$";
+        private const string CONVENTIONAL_COMMIT_FORMAT = "^(?<type>(BREAKING CHANGE|\\w*))(?:(?<scope>.*))?: (?<subject>.*)$";
         private static readonly Regex HEADER_PATTERN =
             new Regex($"{CONVENTIONAL_COMMIT_FORMAT}",
-                      RegexOptions.Singleline);
-
-        private static readonly Regex TRAILER_PATTERN =
-            new Regex($"{CONVENTIONAL_COMMIT_BREAKING_FORMAT}|{CONVENTIONAL_COMMIT_FORMAT}",
-                      RegexOptions.Singleline);
+                      RegexOptions.Multiline);
 
         public IEnumerable<ConventionalCommit> Parse(IEnumerable<Commit> commits)
         {
@@ -44,7 +41,7 @@ namespace Vaeyori.ConventionalCommits
         private ConventionalCommit Parse(Commit commit)
         {
             var commitMessageLines = commit.Message.Split(
-                new[] { "\r\n" },
+                new[] { CARRIAGE_RETURN, LINE_FEED },
                 System.StringSplitOptions.RemoveEmptyEntries)
                 .Select(line => line.Trim())
                 .Where(line => !string.IsNullOrWhiteSpace(line));
@@ -65,15 +62,17 @@ namespace Vaeyori.ConventionalCommits
                     for (var i = 1; i < commitMessageLines.Count(); i++)
                     {
                         string line = commitMessageLines.ElementAt(i);
-                        var matchTrailer = TRAILER_PATTERN.Match(line);
+                        var matchTrailer = HEADER_PATTERN.Match(line);
 
                         if (matchTrailer.Success)
                         {
-                            string token = matchTrailer.Groups[nameof(token)].Value;
-                            string value = matchTrailer.Groups[nameof(value)].Value;
-                            conventionalCommit.AppendTrailer(token, value);
+                            var trailerType = matchTrailer.Groups[nameof(type)].Value;
+                            var trailerScope = matchTrailer.Groups[nameof(scope)].Value;
+                            var trailerSubject = matchTrailer.Groups[nameof(subject)].Value;
 
-                            if (token.StartsWith(BREAKING_CHANGE_TOKEN))
+                            conventionalCommit.AppendTrailer(trailerType, trailerScope, trailerSubject);
+
+                            if (trailerType.Equals(BREAKING_CHANGE_TOKEN))
                             {
                                 conventionalCommit.FoundBreakingChangeToken();
                             }

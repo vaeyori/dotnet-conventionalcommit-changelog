@@ -69,25 +69,18 @@ namespace Vaeyori.Applications.ChangelogGenerator
             IDictionary<string, IDictionary<string, ICollection<string>>> changelogMessages = new Dictionary<string, IDictionary<string, ICollection<string>>>();
             foreach (var conventionalCommit in conventionalCommits)
             {
-                if (!changelogMessages.TryGetValue(conventionalCommit.Type, out var typeCollection))
+                if (conventionalCommit is null)
                 {
-                    typeCollection = new Dictionary<string, ICollection<string>>();
-                    changelogMessages.Add(conventionalCommit.Type, typeCollection);
+                    continue;
                 }
 
-                var scope = conventionalCommit.Scope;
-                if (string.IsNullOrEmpty(scope))
-                {
-                    scope = "_General";
-                }
+                AppendChangelogMessage(conventionalCommit, changelogMessages);
 
-                if (!typeCollection.TryGetValue(scope, out var scopeCollection))
+                foreach(var conventionalCommitTrailer in conventionalCommit.Trailers)
                 {
-                    scopeCollection = new List<string>();
-                    typeCollection.Add(scope, scopeCollection);
+                    AppendChangelogMessage(conventionalCommitTrailer, changelogMessages);
                 }
-
-                scopeCollection.Add(conventionalCommit.Subject);
+               
             }
 
             StringBuilder builder = new StringBuilder();
@@ -125,6 +118,30 @@ namespace Vaeyori.Applications.ChangelogGenerator
             streamWriter.Close();
 
             _applicationLifetime.StopApplication();
+        }
+
+
+        private void AppendChangelogMessage(ConventionalCommit conventionalCommit, IDictionary<string, IDictionary<string, ICollection<string>>> changelogMessages)
+        {
+            if (!changelogMessages.TryGetValue(conventionalCommit.Type, out var typeCollection))
+            {
+                typeCollection = new Dictionary<string, ICollection<string>>();
+                changelogMessages.Add(conventionalCommit.Type, typeCollection);
+            }
+
+            var scope = conventionalCommit.Scope;
+            if (string.IsNullOrEmpty(scope))
+            {
+                scope = "_General";
+            }
+
+            if (!typeCollection.TryGetValue(scope, out var scopeCollection))
+            {
+                scopeCollection = new List<string>();
+                typeCollection.Add(scope, scopeCollection);
+            }
+
+            scopeCollection.Add(conventionalCommit.Subject);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

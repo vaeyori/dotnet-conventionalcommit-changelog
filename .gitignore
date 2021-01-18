@@ -365,3 +365,5 @@ MigrationBackup/
 FodyWeavers.xsd
 **/bom.xml
 **/mutation-tests
+
+**/launchsettings.json

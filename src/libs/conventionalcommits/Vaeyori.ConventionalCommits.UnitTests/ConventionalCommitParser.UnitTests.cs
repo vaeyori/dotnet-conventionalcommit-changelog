@@ -84,8 +84,8 @@ namespace Vaeyori.ConventionalCommits.UnitTests
 
             Assert.NotEmpty(conventionalCommit.Trailers);
             Assert.NotNull(trailer);
-            Assert.NotNull(trailer.Token);
-            Assert.NotNull(trailer.Value);
+            Assert.NotNull(trailer.Type);
+            Assert.NotNull(trailer.Subject);
         }
 
         [Fact]
