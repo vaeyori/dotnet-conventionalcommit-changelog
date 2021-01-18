@@ -17,30 +17,11 @@
 
 namespace Vaeyori.ConventionalCommits
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public sealed class ConventionalCommit
     {
-        public ConventionalCommit(
-            string type,
-            string subject,
-            bool hasBreakingToken)
-            : this(type, null, subject, hasBreakingToken)
-        {
-        }
-
-        public ConventionalCommit(
-            string type,
-            string scope,
-            string subject,
-            bool hasBreakingToken)
-            : this(type, scope, subject)
-        {
-            HasBreakingToken = hasBreakingToken;
-        }
-
         public ConventionalCommit(
             string type,
             string scope,
@@ -61,7 +42,7 @@ namespace Vaeyori.ConventionalCommits
 
         public bool HasBreakingToken { get; private set; }
 
-        private ICollection<ConventionalCommitTrailer> _trailers =
+        private readonly ICollection<ConventionalCommitTrailer> _trailers =
             new List<ConventionalCommitTrailer>();
 
         public IEnumerable<ConventionalCommitTrailer> Trailers { get { return _trailers; } }
