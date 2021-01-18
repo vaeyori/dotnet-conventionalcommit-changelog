@@ -8,6 +8,7 @@
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/vaeyori/Vaeyori/1?label=Test%20Results)
 ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/vaeyori/Vaeyori/1?label=Code%20Coverage)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/vaeyori/dotnet-conventionalcommit-changelog?label=Version&sort=semver)
+![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/vaeyori/dotnet-conventionalcommit-changelog?label=Dependencies)
 
 ## Contribute
 Contributions are always welcome! Please read the [contribution guidelines](/contributing.md) first.
