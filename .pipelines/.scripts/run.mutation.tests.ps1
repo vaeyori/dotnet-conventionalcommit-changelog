@@ -178,7 +178,7 @@ function Init($outputPath, $cd)
 
     if ($IsLinux)
     {
-        export PATH=$PATH:$HOME/.dotnet/tools
+        export PATH=$PATH:.dotnet/tools
     }
 
     $solutionProjectPath = get-childitem . $solution -Recurse
