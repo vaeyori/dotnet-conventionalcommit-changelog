@@ -2,8 +2,6 @@
 $arg = $args[0]
 function CopyNewestReport($outputPath, $testPath)
 {
-    Write-Host $outputPath
-    Write-Host $testPath
     $searchPath = Split-Path -Path $testPath
     Write-Host "Searching for json files in this path: $searchPath"
     # find all json result files and use the most recent one
@@ -14,7 +12,7 @@ function CopyNewestReport($outputPath, $testPath)
     $orgReportFilePath=$file.FullName
     if ($orgReportFilePath)
     {
-        $splitted = $orgReportFilePath.split("/\")
+        $splitted = $orgReportFilePath -split { $_ -in '/', '\' }
         $dateTimeStamp = $splitted[$splitted.Length - 3]
         $fileName =  $splitted[$splitted.Length - 1]
         Write-Host "Last file filename: $orgReportFilePath has timestamp: $dateTimeStamp"
@@ -31,7 +29,9 @@ function CopyNewestReport($outputPath, $testPath)
 function DeleteDataFromPreviousRuns ($outputPath) {
     # clear the output path
     Write-Host "Deleting previous json files from $($outputPath)"
-    Get-ChildItem -Path "$($outputPath)" -Include '*.json', '*.html' -File -Recurse | ForEach-Object { $_.Delete()}
+    Get-ChildItem -Path "$($outputPath)" -Include '*.json', '*.html' -File -Recurse | ForEach-Object { Remove-Item $_ -Recurse -Force }
+
+    Get-ChildItem -Path $pwd -Include 'StrykerOutput' -Recurse | ForEach-Object { Remove-Item $_ -Recurse -Force }
 }
 
 function Extend-Json($target, $extend)
