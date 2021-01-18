@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
@@ -6,15 +6,8 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <Target Name="ExecuteUnitTests" AfterTargets="AfterBuild" Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
-    <Exec Command="dotnet test --no-restore --no-build $(MSBuildProjectFile)"></Exec>
-  </Target>
-
-  <Target Name="ExecuteMutationTests" AfterTargets="ExecuteUnitTests" Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
-    <Exec Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { ../../../../.pipelines/.scripts/run.mutation.tests.ps1 mutation-tests } &quot;"
-          LogStandardErrorAsError="True"
-          ContinueOnError="False"
-          WorkingDirectory="$(MSBuildProjectDirectory)"></Exec>
+  <Target Name="ExecuteUnitTests" AfterTargets="AfterBuild" Condition=" '$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="dotnet test --no-restore --no-build -l:trx $(MSBuildProjectFile)"></Exec>
   </Target>
 
   <PropertyGroup Label="FineCodeCoverage">
