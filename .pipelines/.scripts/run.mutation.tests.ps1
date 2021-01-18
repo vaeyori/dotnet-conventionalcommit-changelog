@@ -125,6 +125,7 @@ function CreateReportFromAllJsonFiles ($reportDir) {
 function GenerateReports($outputPath, $cd)
 {
     $projectFiles = get-childitem . *Test*.csproj -Recurse
+    $dotnetStrykerPath = Get-ChildItem $cd -recurse -include 'dotnet-stryker.exe' | Select-Object -First 1
 
     foreach( $projectFile in $projectFiles )
     {
@@ -150,7 +151,7 @@ function GenerateReports($outputPath, $cd)
         # Invoke all commands.
         foreach($command in $commands)
         {
-            & "$cd/tools/dotnet-stryker.exe" -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
+            & "$dotnetStrykerPath" -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
