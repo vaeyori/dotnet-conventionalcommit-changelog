@@ -17,6 +17,8 @@
 
 namespace Vaeyori.Applications.ChangelogGenerator
 {
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using CommandLine;
     using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +29,7 @@ namespace Vaeyori.Applications.ChangelogGenerator
 
         private static void ConfigureServices(IServiceCollection services)
         {
-
-            _ = Parser
+            var result = Parser
                     .Default
                     .ParseArguments<ChangeLogGeneratorOptions>(Arguments)
                     .WithParsed(x =>
@@ -36,12 +37,20 @@ namespace Vaeyori.Applications.ChangelogGenerator
                         _ = services.AddSingleton(x);
                     });
 
+            if (result.Tag == ParserResultType.NotParsed)
+            {
+                Environment.Exit(1);
+            }
 
             _ = services.AddHostedService<ChangeLogGeneratorService>();
         }
 
-        static Task Main(string[] args) =>
-            CreateHostBuilder(args).Build().RunAsync();
+        static async Task Main(string[] args)
+        {
+            using var cancellationTokenSource = new CancellationTokenSource();
+
+            await CreateHostBuilder(args).Build().RunAsync(cancellationTokenSource.Token);
+        }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
