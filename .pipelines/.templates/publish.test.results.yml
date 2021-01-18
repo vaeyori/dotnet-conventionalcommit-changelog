@@ -5,7 +5,7 @@ parameters:
 
 - name: testResultsFiles
   type: string
-  default: '$(System.DefaultWorkingDirectory)/testresults/test_results.xml'
+  default: '**/TEST-*.xml'
 
 - name: mergeTestResults
   type: boolean
@@ -18,7 +18,7 @@ parameters:
 steps:
 - task: PublishTestResults@2
   inputs:
-    testResultsFormat: '${{ parameters.testResultsFormat }}'
-    testResultsFiles: '${{ parameters.testResultsFiles }}'
+    testResultsFormat: ${{ parameters.testResultsFormat }}
+    testResultsFiles: ${{ parameters.testResultsFiles }}
     mergeTestResults: ${{ parameters.mergeTestResults }}
     failTaskOnFailedTests: ${{ parameters.failTaskOnFailedTests }}
