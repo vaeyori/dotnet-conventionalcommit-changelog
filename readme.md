@@ -10,6 +10,19 @@
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/vaeyori/dotnet-conventionalcommit-changelog?label=Version&sort=semver)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/vaeyori/dotnet-conventionalcommit-changelog?label=Dependencies)
 
+## Usage
+
+### Installation
+Install via command line by running the following command
+
+    dotnet tool install Vaeyori.ConventionalCommitChangelogGenerator
+
+Once installed you can access the application via the command line using the following command
+
+    conventionalcommits-changelog --help
+
+The help screen will appear providing you additional information on the available arguments that are required to be supplied.
+
 ## Contribute
 Contributions are always welcome! Please read the [contribution guidelines](/contributing.md) first.
 
