@@ -10,6 +10,7 @@ stages:
   - stage: 'Versioning'
     jobs:
     - job: 'GitVersion'
+      condition: ne(variables['Build.Reason'], 'PullRequest')
       steps:
       - template: '.pipelines/.templates/generate.version.yml'
 
@@ -30,7 +31,7 @@ stages:
         inputs:
           command: 'test'
           projects: 'dotnet-conventionalcommit-changelog.sln'
-          arguments: '--results-directory /testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput=/codecoverage/ /p:MergeWith=/codecoverage/coverage.json /p:maxcpucount=1 /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"'
+          arguments: '--results-directory $(System.DefaultWorkingDirectory)/testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput=$(System.DefaultWorkingDirectory)/codecoverage/ /p:MergeWith=$(System.DefaultWorkingDirectory)/codecoverage/coverage.json /p:maxcpucount=1 /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"'
           publishTestResults: false
       - template: '.pipelines/.templates/publish.codecoverage.results.yml'
 
@@ -49,16 +50,15 @@ stages:
   - stage: 'PackAndPublishTool'
     jobs:
     - job: 'PackAndPublishToolNuget'
+      condition: ne(variables['Build.Reason'], 'PullRequest')
       steps:
-      - task: DotNetCoreCLI@2
-        condition: ne(variables['Build.Reason'], 'PullRequest')
+      - task: DotNetCoreCLI@2        
         inputs:
           command: 'pack'
           packagesToPack: '**/Vaeyori.Applications.ChangelogGenerator.csproj'
           includesymbols: true
           versioningScheme: 'byBuildNumber'
       - task: DotNetCoreCLI@2
-        condition: ne(variables['Build.Reason'], 'PullRequest')
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
