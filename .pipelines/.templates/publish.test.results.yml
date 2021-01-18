@@ -5,7 +5,7 @@ parameters:
 
 - name: testResultsFiles
   type: string
-  default: '**/TEST-*.xml'
+  default: '**/test*.xml'
 
 - name: mergeTestResults
   type: boolean
