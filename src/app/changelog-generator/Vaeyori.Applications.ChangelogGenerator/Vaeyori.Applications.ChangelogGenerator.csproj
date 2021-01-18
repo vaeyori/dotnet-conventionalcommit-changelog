@@ -5,8 +5,19 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>conventional-changelog</ToolCommandName>
+    <ToolCommandName>conventionalcommit-changelog</ToolCommandName>
     <PackageOutputPath>./.nupkg</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Vaeyori</Authors>
+    <Product>.Net Conventional Commit Changelog Generator</Product>
+    <Description>Generates changelog updates based on commit messages in the Conventional Commit standardized format.</Description>
+    <PackageLicenseFile>license.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/vaeyori/dotnet-conventionalcommit-changelog</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <PackageProjectUrl>https://github.com/vaeyori/dotnet-conventionalcommit-changelog</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>Vaeyori.ConventionalCommitChangelogGenerator</PackageId>
+    <PackageTags>Conventional Commit, Changelog, dotnet tool</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +30,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\libs\conventionalcommits\Vaeyori.ConventionalCommits\Vaeyori.ConventionalCommits.csproj" />
     <ProjectReference Include="..\..\..\libs\git\Vaeyori.Git\Vaeyori.Git.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\license.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   
 </Project>
