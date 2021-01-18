@@ -173,7 +173,7 @@ function Init($outputPath, $cd)
 {
     if (!((dotnet tool list --global) -match 'stryker'))
     {
-        dotnet tool install dotnet-stryker --tool-path './tools'
+        dotnet tool install dotnet-stryker --tool-path "$cd/tools"
     }
 
     $solutionProjectPath = get-childitem . $solution -Recurse
