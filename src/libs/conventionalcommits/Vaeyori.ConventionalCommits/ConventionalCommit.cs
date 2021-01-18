@@ -42,14 +42,14 @@ namespace Vaeyori.ConventionalCommits
 
         public bool HasBreakingToken { get; private set; }
 
-        private readonly ICollection<ConventionalCommitTrailer> _trailers =
-            new List<ConventionalCommitTrailer>();
+        private readonly ICollection<ConventionalCommit> _trailers =
+            new List<ConventionalCommit>();
 
-        public IEnumerable<ConventionalCommitTrailer> Trailers { get { return _trailers; } }
+        public IEnumerable<ConventionalCommit> Trailers { get { return _trailers; } }
 
-        public void AppendTrailer(string token, string value)
+        public void AppendTrailer(string token, string scope, string subject)
         {
-            var trailer = new ConventionalCommitTrailer(token, value);
+            var trailer = new ConventionalCommit(token, scope, subject);
 
             _trailers.Add(trailer);
         }
