@@ -150,7 +150,7 @@ function GenerateReports($outputPath, $cd)
         # Invoke all commands.
         foreach($command in $commands)
         {
-            dotnet stryker -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
+            & $cd/tools/dotnet-stryker.exe -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
@@ -173,10 +173,8 @@ function Init($outputPath, $cd)
 {
     if (!((dotnet tool list --global) -match 'stryker'))
     {
-        dotnet tool install dotnet-stryker --global
+        dotnet tool install dotnet-stryker --tool-path './tools'
     }
-
-    $env:Path += ";.dotnet/tools"
 
     $solutionProjectPath = get-childitem . $solution -Recurse
 
