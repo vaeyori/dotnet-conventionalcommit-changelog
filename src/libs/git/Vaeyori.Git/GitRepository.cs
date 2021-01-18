@@ -62,6 +62,38 @@ namespace Vaeyori.Git
                 (IEnumerable<Commit>)_repository.Commits.QueryBy(filter));
         }
 
+        public Task<IEnumerable<Commit>> GetLatestCommitsBetweenTagsAsync(string startingTagName, string endingTagName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrEmpty(startingTagName))
+            {
+                throw new ArgumentNullException(nameof(startingTagName));
+            }
+
+            if (string.IsNullOrEmpty(endingTagName))
+            {
+                throw new ArgumentNullException(nameof(endingTagName));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var startingCommitsWithTags = GetCommitsWithTags(startingTagName);
+            var endingCommitsWithTags = GetCommitsWithTags(endingTagName);
+            var startingCommit = startingCommitsWithTags
+                .LastOrDefault();
+            var endingCommit = endingCommitsWithTags
+                .LastOrDefault();
+
+            var filter = new CommitFilter
+            {
+                ExcludeReachableFrom = startingCommit,
+                IncludeReachableFrom = endingCommit,
+                SortBy = CommitSortStrategies.Reverse
+            };
+
+            return Task.FromResult(
+                (IEnumerable<Commit>)_repository.Commits.QueryBy(filter));
+        }
+
         private IEnumerable<Commit> GetCommitsWithTags(string tagName)
         {
             var tag = _repository.Tags.First(x => x.FriendlyName.Equals(tagName));
