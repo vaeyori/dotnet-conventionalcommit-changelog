@@ -5,11 +5,11 @@ parameters:
 
 - name: summaryFileLocation
   type: string
-  default: '**/coverage.cobertura.xml'
+  default: '$(System.DefaultWorkingDirectory)/codecoverage/coverage.cobertura.xml'
 
 - name: reportDirectory
   type: string
-  default: '**/codecoverage'
+  default: '$(System.DefaultWorkingDirectory)/codecoverage'
 
 - name: failIfCoverageEmpty
   type: boolean
