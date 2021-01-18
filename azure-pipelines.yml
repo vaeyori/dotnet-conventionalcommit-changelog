@@ -17,6 +17,7 @@ stages:
   - stage: 'Build'
     jobs:
     - job: 'BuildJob'
+      condition: eq(variables['Build.Reason'], 'PullRequest')
       steps:
       - task: DotNetCoreCLI@2
         inputs:
@@ -58,6 +59,10 @@ stages:
           projects: '**/*.sln'
           feedsToUse: 'select'
           vstsFeed: '17a33635-d21a-4130-820b-02b3bd7628bc'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: 'dotnet-conventionalcommit-changelog.sln'
       - task: DotNetCoreCLI@2        
         inputs:
           command: 'pack'
