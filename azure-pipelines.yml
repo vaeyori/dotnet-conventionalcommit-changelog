@@ -32,8 +32,6 @@ stages:
           command: 'test'
           projects: 'dotnet-conventionalcommit-changelog.sln'
           arguments: '--results-directory $(System.DefaultWorkingDirectory)/testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:IncludeTestAssembly=false /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput=$(System.DefaultWorkingDirectory)/codecoverage/ /p:MergeWith=$(System.DefaultWorkingDirectory)/codecoverage/coverage.json /p:maxcpucount=1 /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"'
-          publishTestResults: false
-      - template: '.pipelines/.templates/publish.test.results.yml'
       - template: '.pipelines/.templates/publish.codecoverage.results.yml'
 
   - stage: 'MutationTests'
