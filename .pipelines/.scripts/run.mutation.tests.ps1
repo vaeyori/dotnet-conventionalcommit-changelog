@@ -152,7 +152,7 @@ function GenerateReports($outputPath, $cd)
         # Invoke all commands.
         foreach($command in $commands)
         {
-            $("$dotnetStrykerPath") -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
+            & $dotnetStrykerPath -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
