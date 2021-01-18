@@ -150,7 +150,7 @@ function GenerateReports($outputPath, $cd)
         # Invoke all commands.
         foreach($command in $commands)
         {
-            & $cd/tools/dotnet-stryker.exe -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
+            & "$cd/tools/dotnet-stryker.exe" -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
@@ -176,13 +176,15 @@ function Init($outputPath, $cd)
         dotnet tool install dotnet-stryker --tool-path "$cd/tools"
     }
 
-    $solutionProjectPath = get-childitem . $solution -Recurse
 
+    Write-Host "Deleting data from previous runs.."
     New-Item -ItemType Directory -Force -Path $outputPath
     DeleteDataFromPreviousRuns $outputPath
 
+    Write-Host "Beginning mutation testing..."
     GenerateReports $outputPath $cd
 
+    Write-Host "Merging mutation testing results into a single report..."
     CreateReportFromAllJsonFiles $outputPath
 
     Set-Location $cd
