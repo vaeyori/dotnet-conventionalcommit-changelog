@@ -176,6 +176,11 @@ function Init($outputPath, $cd)
         dotnet tool install dotnet-stryker --global
     }
 
+    if ($IsLinux)
+    {
+        export PATH=$PATH:$HOME/.dotnet/tools
+    }
+
     $solutionProjectPath = get-childitem . $solution -Recurse
 
     New-Item -ItemType Directory -Force -Path $outputPath
