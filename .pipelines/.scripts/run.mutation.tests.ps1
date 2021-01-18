@@ -132,7 +132,7 @@ function GenerateReports($outputPath, $cd)
     }
     else
     {
-      $dotnetStrykerPath = "./tools/dotnet-stryker"
+      $dotnetStrykerPath = "dotnet-stryker"
     }
 
     foreach( $projectFile in $projectFiles )
