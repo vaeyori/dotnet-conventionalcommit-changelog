@@ -5,7 +5,7 @@ parameters:
 
 - name: summaryFileLocation
   type: string
-  default: '**/codecoverage/coverage.cobertura.xml'
+  default: '**/coverage.cobertura.xml'
 
 - name: reportDirectory
   type: string
