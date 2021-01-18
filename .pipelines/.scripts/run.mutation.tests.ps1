@@ -125,7 +125,7 @@ function CreateReportFromAllJsonFiles ($reportDir) {
 function GenerateReports($outputPath, $cd)
 {
     $projectFiles = get-childitem . *Test*.csproj -Recurse
-    $dotnetStrykerPath = Get-ChildItem $cd -recurse -include 'dotnet-stryker.exe' | Select-Object -First 1
+    $dotnetStrykerPath = Get-ChildItem ./ -recurse -include 'dotnet-stryker.exe' | Select-Object -First 1
     Write-Host $dotnetStrykerPath
 
     foreach( $projectFile in $projectFiles )
