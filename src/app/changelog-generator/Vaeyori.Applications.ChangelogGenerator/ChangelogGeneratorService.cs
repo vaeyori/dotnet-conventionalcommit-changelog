@@ -55,6 +55,13 @@ namespace Vaeyori.Applications.ChangelogGenerator
                     _options.StartTag,
                     cancellationToken);
             }
+            else
+            {
+                commits = await gitRepository.GetLatestCommitsBetweenTagsAsync(
+                    _options.StartTag,
+                    _options.EndTag,
+                    cancellationToken);
+            }
 
             var parser = new ConventionalCommitParser();
             var conventionalCommits = parser.Parse(commits);

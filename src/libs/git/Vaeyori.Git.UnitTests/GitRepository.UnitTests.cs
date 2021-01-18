@@ -81,5 +81,47 @@ namespace Vaeyori.Git.UnitTests
             Assert.NotEqual(0, totalNumberOfCommits);
             Assert.Equal(totalNumberOfCommits - 1, latestCommitsFromTag.Count());
         }
+
+
+        [Theory]
+        [InlineData("", "GitRepository_GetLatestCommitsBetweenTagsAsync_ReturnsTagSuccessfully_End")]
+        [InlineData("GitRepository_GetLatestCommitsBetweenTagsAsync_ReturnsTagSuccessfully_Start", "")]
+        public async Task GitRepository_GetLatestCommitsBetweenTagsAsync_ThrowsArgumentNullException(
+            string startingTag,
+            string endingTag)
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+            var repositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../../../../");
+            var repository = new Repository(repositoryPath);
+            var gitRepository = new GitRepository(repository);
+
+            var totalNumberOfCommits = await gitRepository.GetCommitCountAsync(cancellationTokenSource.Token);
+            _ = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+                await gitRepository.GetLatestCommitsBetweenTagsAsync(
+                    startingTag,
+                    endingTag,
+                    cancellationTokenSource.Token));
+        }
+
+        [Fact]
+        public async Task GitRepository_GetLatestCommitsBetweenTagsAsync_ReturnsCommitsSuccessfully()
+        {
+            // given
+            var repositoryPath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../../../../");
+            var repository = new Repository(repositoryPath);
+            var gitRepository = new GitRepository(repository);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // when
+            var commits = await gitRepository.GetLatestCommitsBetweenTagsAsync(
+                "GitRepository_GetLatestCommitsBetweenTagsAsync_ReturnsTagSuccessfully_Start",
+                "GitRepository_GetLatestCommitsBetweenTagsAsync_ReturnsTagSuccessfully_End",
+                cancellationTokenSource.Token);
+
+            // then
+            Assert.NotEmpty(commits);
+            Assert.Equal(2, commits.Count());
+        }
     }
 }
