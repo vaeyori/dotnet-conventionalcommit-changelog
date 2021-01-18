@@ -126,15 +126,6 @@ function GenerateReports($outputPath, $cd)
 {
     $projectFiles = get-childitem . *Test*.csproj -Recurse
 
-    if($IsWindows)
-    {
-      $dotnetStrykerPath = Get-ChildItem ./ -recurse -include 'dotnet-stryker.exe' | Select-Object -First 1
-    }
-    else
-    {
-      $dotnetStrykerPath = "./tools/dotnet-stryker"
-    }
-
     foreach( $projectFile in $projectFiles )
     {
         $commands = [System.Collections.ArrayList]::new()
@@ -159,7 +150,7 @@ function GenerateReports($outputPath, $cd)
         # Invoke all commands.
         foreach($command in $commands)
         {
-            & $dotnetStrykerPath -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
+            & dotnet tool run dotnet-stryker -p "$($command)" --abort-test-on-fail --threshold-high 99 --threshold-low 90 --threshold-break 85 --mutation-level 'Advanced' --reporters "['json', 'html', 'progress']"
 
             if ($_.Exception){
                 throw $_.Exception
@@ -180,11 +171,7 @@ function GenerateReports($outputPath, $cd)
 
 function Init($outputPath, $cd)
 {
-    if (!((dotnet tool list --global) -match 'stryker'))
-    {
-        dotnet tool install dotnet-stryker --tool-path "$cd/tools"
-    }
-
+    dotnet tool restore
 
     Write-Host "Deleting data from previous runs.."
     New-Item -ItemType Directory -Force -Path $outputPath
