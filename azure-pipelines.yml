@@ -30,6 +30,9 @@ stages:
         inputs:
           command: 'test'
           projects: 'dotnet-conventionalcommit-changelog.sln'
+          arguments: '--results-directory /testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat="json%2ccobertura" /p:CoverletOutput=/codecoverage/ /p:MergeWith=/codecoverage/coverage.json /p:maxcpucount=1 /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"'
+          publishTestResults: false
+      - template: '.pipelines/.templates/publish.codecoverage.results.yml'
 
   - stage: 'MutationTests'
     jobs:
@@ -40,3 +43,24 @@ stages:
           filePath: '.pipelines/.scripts/run.mutation.tests.ps1'
           arguments: '$(System.DefaultWorkingDirectory)/mutation-tests'
       - template: '.pipelines/.templates/publish.mutation.test.results.yml'
+        parameters:
+          reportPattern: '**/mutation-tests/mutation-report.html'
+
+  - stage: 'PackAndPublishTool'
+    jobs:
+    - job: 'PackAndPublishToolNuget'
+      steps:
+      - task: DotNetCoreCLI@2
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        inputs:
+          command: 'pack'
+          packagesToPack: '**/Vaeyori.Applications.ChangelogGenerator.csproj'
+          includesymbols: true
+          versioningScheme: 'byBuildNumber'
+      - task: DotNetCoreCLI@2
+        condition: ne(variables['Build.Reason'], 'PullRequest')
+        inputs:
+          command: 'push'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          nuGetFeedType: 'external'
+          publishFeedCredentials: 'NuGet.org'
