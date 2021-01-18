@@ -5,7 +5,7 @@ parameters:
 
 - name: testResultsFiles
   type: string
-  default: '**/*test*.xml'
+  default: '$(System.DefaultWorkingDirectory)/testresults/test_results.xml'
 
 - name: mergeTestResults
   type: boolean
