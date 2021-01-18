@@ -19,7 +19,7 @@ Install via command line by running the following command
 
 Once installed you can access the application via the command line using the following command
 
-    conventionalcommits-changelog --help
+    conventionalcommit-changelog --help
 
 The help screen will appear providing you additional information on the available arguments that are required to be supplied.
 
